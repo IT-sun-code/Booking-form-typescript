@@ -1,0 +1,77 @@
+import React from "react";
+import styles from "./successModalContent.module.css";
+import Button from "../../../button";
+import {
+  IFormData,
+  initialFormData,
+} from "../../../../../common/constants/initialFormData";
+
+interface ISuccessModalContentProps {
+  onClose: () => void;
+}
+
+const SuccessModalContent: React.FC<ISuccessModalContentProps> = ({
+  onClose,
+}) => {
+  const formDataString = localStorage.getItem("formData");
+  const formData: IFormData | null = formDataString
+    ? JSON.parse(formDataString)
+    : null;
+  const { tower, floor, room, date, timeRange, comment } =
+    formData || initialFormData;
+
+  return (
+    <>
+      <h2 className={styles.header2}>Ваш заказ успешно оформлен!</h2>
+
+      <div className={styles.bookingDetails}>
+        <h3 className={styles.header3}>Детали брони</h3>
+        <div className={styles.body}>
+          <div className={styles.row}>
+            <div className={styles.cell}>Башня</div>
+            <div className={styles.cell}>{tower}</div>
+          </div>
+          <div className={styles.row}>
+            <div className={styles.cell}>Этаж</div>
+            <div className={styles.cell}>{floor}</div>
+          </div>
+          <div className={styles.row}>
+            <div className={styles.cell}>Переговорка</div>
+            <div className={styles.cell}>{room}</div>
+          </div>
+          <div className={styles.row}>
+            <div className={styles.cell}>Дата</div>
+            <div className={styles.cell}>{date}</div>
+          </div>
+          <div className={styles.row}>
+            <div className={styles.cell}>Период времени</div>
+            <div className={styles.cell}>
+              {`${timeRange[0]} / ${timeRange[1]}`}
+            </div>
+          </div>
+        </div>
+        <div className={styles.footer}>
+          <div className={`${styles.row} ${styles.comment}`}>
+            <div className={styles.cell}>Комментарий</div>
+            <div className={styles.cell}>{comment}</div>
+          </div>
+        </div>
+      </div>
+
+      <Button
+        appearance="ctv"
+        onClick={() => {
+          onClose(), localStorage.clear();
+        }}
+      >
+        Спасибо
+      </Button>
+
+      <p className={styles.warning}>
+        ВНИМАНИЕ! Для изменения данных свяжитесь с нами по телефону или почте
+      </p>
+    </>
+  );
+};
+
+export default SuccessModalContent;
