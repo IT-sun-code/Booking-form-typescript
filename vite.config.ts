@@ -6,7 +6,11 @@ export default defineConfig({
   plugins: [react()],
   build: {
     outDir: "build",
-    srcDir: "src",
+    rollupOptions: {
+      input: {
+        main: "src/main.tsx",
+      },
+    },
   },
-  base: "/Booking-form/",
+  base: "/Booking-form-typescript/",
 });
